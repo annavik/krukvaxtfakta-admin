@@ -3,36 +3,38 @@
 Plugin Name: Library
 Author: Anna Viklund
 Version: 1.0
-*/
+ */
 
 // Constants
 define('CULTIVAR_POST_TYPE', 'cultivar');
 
 // Methods
-function cultivar_register_post_type() {
+function cultivar_register_post_type()
+{
     register_post_type(CULTIVAR_POST_TYPE, array(
         'labels' => array(
-          'name' => 'Sorter',
-          'singular_name' => 'Sort',
-          'add_new' => 'Registrera ny sort',
-          'add_new_item' => 'Registrera ny sort',
-          'edit_item' => 'Redigera sort',
-          'new_item' => 'Ny sort',
-          'view_item' => 'Till sort',
-          'view_items' => 'Till sorter',
-          'not_found' => 'Hittade inga sorter.',
-          'not_found_in_trash' => 'Hittade inga sorter.',
-          'search_items' => 'Sök sort',
+            'name' => 'Sorter',
+            'singular_name' => 'Sort',
+            'add_new' => 'Registrera ny sort',
+            'add_new_item' => 'Registrera ny sort',
+            'edit_item' => 'Redigera sort',
+            'new_item' => 'Ny sort',
+            'view_item' => 'Till sort',
+            'view_items' => 'Till sorter',
+            'not_found' => 'Hittade inga sorter.',
+            'not_found_in_trash' => 'Hittade inga sorter.',
+            'search_items' => 'Sök sort',
         ),
         'description' => '',
         'public' => true,
         'menu_position' => 22,
         'menu_icon' => 'dashicons-heart',
-        'supports' => array('title', 'thumbnail')
-      ));
+        'supports' => array('title', 'thumbnail'),
+    ));
 }
 
-function cultivar_setup_admin_fields() {
+function cultivar_setup_admin_fields()
+{
     if (function_exists('register_field_group')) { // Kräver ACF
         acf_add_local_field_group(array(
             'key' => 'group_5cced381cb5f0',
@@ -96,7 +98,7 @@ function cultivar_setup_admin_fields() {
             'description' => '',
         ));
     }
-  }
+}
 
 // Register cultivar post type and admin fields
 add_action('init', 'cultivar_register_post_type');
