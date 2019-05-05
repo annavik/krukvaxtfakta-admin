@@ -43,8 +43,9 @@ class API_Library extends API_Response {
   }
 
   private function formatCultivarData($cultivar_data) {
-    $post_id = $cultivar_data->ID;
+	$post_id = $cultivar_data->ID;
 	$title = $cultivar_data->post_title;
+	$post_modified = $cultivar_data->post_modified;
 	$thumbnail = get_the_post_thumbnail_url($post_id, 'thumbnail');
 	$image = get_the_post_thumbnail_url($post_id, 'medium_large');
 	
@@ -55,10 +56,11 @@ class API_Library extends API_Response {
     return array(
       'id' => (string)$post_id,
 	  'title' => $title,
+	  'modified' => $post_modified,
 	  'thumbnail' => $thumbnail ? $thumbnail : null,
 	  'image' => $image ? $thumbnail : null,
 	  'characteristics' => $this->handleHtml($characteristics),
-      'facts' => $this->handleHtml($facts)
+	  'facts' => $this->handleHtml($facts)
     );
   }
 }
