@@ -1,5 +1,4 @@
 <?php
-
 // Set timezone
 date_default_timezone_set('Europe/Stockholm');
 setlocale(LC_TIME, '');
@@ -16,5 +15,5 @@ add_action('admin_menu', function() {
 
 // Inline plugins
 require __DIR__.'/includes/plugin-library/index.php';
-
+require __DIR__.'/includes/plugin-api/index.php';
 ?>
