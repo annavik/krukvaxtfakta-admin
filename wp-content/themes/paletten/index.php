@@ -1,1 +1,1 @@
-<?php header('Location: ' . 'http://localhost:8888/wp-admin');
+<?php header('Location: ' . SITE_URL . '/wp-admin');
