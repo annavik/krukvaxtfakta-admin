@@ -10,7 +10,7 @@ require __DIR__ . '/library.php';
 
 class API_Plugin
 {
-    const NSPACE = 'paletten-api';
+    const NSPACE = 'krukvaxtfakta-api';
     const API_VERSION = 'v1';
 
     protected static $instance = null;
@@ -55,5 +55,5 @@ class API_Plugin
 
 // Init plugin
 add_action('rest_api_init', function () {
-    $paletten_api = API_Plugin::getInstance();
+    $krukvaxtfakta_api = API_Plugin::getInstance();
 });

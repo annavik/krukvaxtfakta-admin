@@ -7,7 +7,7 @@ class API_Library extends API_Response
 
     public function registerRoutes()
     {
-        if (defined('CULTIVAR_POST_TYPE')) {
+        if (defined('PLANT_POST_TYPE')) {
             register_rest_route(API_Plugin::NSPACE . '/' . API_Plugin::API_VERSION, 'library', array(
                 'methods' => 'GET',
                 'callback' => array($this, 'getLibrary'),
@@ -25,9 +25,9 @@ class API_Library extends API_Response
 
         $data = array();
 
-        foreach ($library_posts as $cultivar_data) {
-            $cultivar = $this->formatCultivarData($cultivar_data);
-            array_push($data, $cultivar);
+        foreach ($library_posts as $plant_data) {
+            $plant = $this->formatPlantData($plant_data);
+            array_push($data, $plant);
         }
 
         return array(
@@ -38,7 +38,7 @@ class API_Library extends API_Response
     private function getLibraryPosts()
     {
         $query = array(
-            'post_type' => CULTIVAR_POST_TYPE,
+            'post_type' => PLANT_POST_TYPE,
             'posts_per_page' => -1,
         );
 
@@ -47,25 +47,44 @@ class API_Library extends API_Response
         return $posts;
     }
 
-    private function formatCultivarData($cultivar_data)
+    private function formatPlantData($plant_data)
     {
-        $post_id = $cultivar_data->ID;
-        $title = $cultivar_data->post_title;
-        $post_modified = $cultivar_data->post_modified;
+        $post_id = $plant_data->ID;
+        $post_modified = $plant_data->post_modified;
+        $name = $plant_data->post_title;
         $thumbnail = get_the_post_thumbnail_url($post_id, 'thumbnail');
         $image = get_the_post_thumbnail_url($post_id, 'medium_large');
 
         $post_meta = get_post_meta($post_id);
-        $characteristics = $post_meta['cultivar_characteristics'][0];
-        $facts = $post_meta['cultivar_facts'][0];
+        $botanical_name = $post_meta['plant_botanical_name'][0];
+        $groups = $post_meta['plant_groups'][0];
+        $difficulty = $post_meta['plant_difficulty'][0];
+        $watering = $post_meta['plant_watering'][0];
+        $light = $post_meta['plant_light'][0];
+        $photographer = $post_meta['plant_photographer'][0];
+        $photographer_link = $post_meta['plant_photographer_link'][0];
+        $characteristics = $post_meta['plant_characteristics'][0];
+        $care = $post_meta['plant_care'][0];
+        $facts = $post_meta['plant_facts'][0];
 
         return array(
             'id' => (string) $post_id,
-            'title' => $title,
+            'slug' => sanitize_title($name),
             'modified' => $post_modified,
-            'thumbnail' => $thumbnail ? $thumbnail : null,
-            'image' => $image ? $thumbnail : null,
+            'name' => $name,
+            'botanicalName' => $botanical_name ? $botanical_name : null,
+            'groups' => $groups ? unserialize($groups) : [],
+            'difficulty' => intval($difficulty),
+            'watering' => intval($watering),
+            'light' => intval($light),
+            'image' => array(
+                'thumbnail' => $thumbnail ? $thumbnail : null,
+                'image' => $image ? $image : null,
+                'photographer' => $photographer ?: null,
+                'photographerLink' => $photographer_link ?: null,
+            ),
             'characteristics' => $this->handleHtml($characteristics),
+            'care' => $this->handleHtml($care),
             'facts' => $this->handleHtml($facts),
         );
     }
