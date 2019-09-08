@@ -238,7 +238,7 @@ function plant_setup_admin_fields()
                     'choices' => array(
                         0 => 'Skugga',
                         1 => 'Sol till halvskugga',
-                        2 => 'Skugga',
+                        2 => 'Sol',
                     ),
                     'default_value' => array(
                         0 => 0,
